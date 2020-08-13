@@ -23,6 +23,13 @@ defmodule ExponentServerSdk.PushNotification do
   # Necessary for mocks in tests
   alias __MODULE__
 
+  # Called to arbitrarily process the request options before sending them
+  # with the request.
+  @spec process_request_options(keyword) :: keyword
+  def process_request_options(options) do
+    options ++ [recv_timeout: 100_000]
+  end
+
   @doc """
   Send the push notification request when using a single message map
   """
