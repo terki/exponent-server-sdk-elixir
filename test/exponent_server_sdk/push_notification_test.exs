@@ -19,15 +19,16 @@ defmodule ExponentServerSdk.PushNotificationTest do
     json = json_response(response, 200)
 
     with_fixture(:post!, json, fn ->
-      # expected = {:ok, %{"status" => "ok", "id" => "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"}}
-      expected =
-        {:ok,
-         %{
-           "status" => "error",
-           "details" => %{"error" => "DeviceNotRegistered"},
-           "message" =>
-             "\"ExponentPushToken[XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX]\" is not a registered push notification recipient"
-         }}
+      expected = {:ok, %{"status" => "ok", "id" => "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"}}
+      # non mocked response:
+      # expected =
+      #   {:ok,
+      #    %{
+      #      "status" => "error",
+      #      "details" => %{"error" => "DeviceNotRegistered"},
+      #      "message" =>
+      #        "\"ExponentPushToken[XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX]\" is not a registered push notification recipient"
+      #    }}
 
       assert expected == PushNotification.push(message_map)
     end)
@@ -57,29 +58,30 @@ defmodule ExponentServerSdk.PushNotificationTest do
     json = json_response(response, 200)
 
     with_fixture(:post!, json, fn ->
-      # expected = {
-      #  :ok,
-      #  [
-      #    %{"status" => "ok", "id" => "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"},
-      #    %{"status" => "ok", "id" => "YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYYYYYY"}
-      #    ]
-      #  }
-      expected =
-        {:ok,
-         [
-           %{
-             "status" => "error",
-             "details" => %{"error" => "DeviceNotRegistered"},
-             "message" =>
-               "\"ExponentPushToken[XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX]\" is not a registered push notification recipient"
-           },
-           %{
-             "status" => "error",
-             "details" => %{"error" => "DeviceNotRegistered"},
-             "message" =>
-               "\"ExponentPushToken[YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYYYYYY]\" is not a registered push notification recipient"
-           }
-         ]}
+      expected = {
+       :ok,
+       [
+         %{"status" => "ok", "id" => "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"},
+         %{"status" => "ok", "id" => "YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYYYYYY"}
+         ]
+       }
+      # non mocked response:
+      # expected =
+      #   {:ok,
+      #    [
+      #      %{
+      #        "status" => "error",
+      #        "details" => %{"error" => "DeviceNotRegistered"},
+      #        "message" =>
+      #          "\"ExponentPushToken[XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX]\" is not a registered push notification recipient"
+      #      },
+      #      %{
+      #        "status" => "error",
+      #        "details" => %{"error" => "DeviceNotRegistered"},
+      #        "message" =>
+      #          "\"ExponentPushToken[YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYYYYYY]\" is not a registered push notification recipient"
+      #      }
+      #    ]}
 
       assert expected == PushNotification.push_list(message_list)
     end)
@@ -98,13 +100,13 @@ defmodule ExponentServerSdk.PushNotificationTest do
     json = json_response(response, 200)
 
     with_fixture(:post!, json, fn ->
-      # expected =
-      #  {:ok,
-      #   %{
-      #     "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" => %{"status" => "ok"},
-      #     "YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYYYYYY" => %{"status" => "ok"}
-      #   }}
-      expected = {:ok, %{}}
+      expected =
+        {:ok,
+          %{
+            "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" => %{"status" => "ok"},
+            "YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYYYYYY" => %{"status" => "ok"}
+        }}
+      # expected = {:ok, %{}}
 
       assert expected == PushNotification.get_receipts(ids)
     end)
