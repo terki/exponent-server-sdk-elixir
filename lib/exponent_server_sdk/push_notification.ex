@@ -27,7 +27,7 @@ defmodule ExponentServerSdk.PushNotification do
   # with the request.
   @spec process_request_options(keyword) :: keyword
   def process_request_options(options) do
-    options ++ [recv_timeout: 100_000]
+    options ++ [recv_timeout: 100_000, timeout: 30_000]
   end
 
   @doc """
