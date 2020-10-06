@@ -33,14 +33,26 @@ defmodule ExponentServerSdk.PushNotification do
   @doc """
   Send the push notification request when using a single message map
   """
-  @spec push(PushMessage.t()) :: Parser.success() | Parser.error()
-  def push(message) when is_map(message) do
+  @spec push(PushMessage.t()) :: Parser.success() | Parser.success_list() | Parser.error()
+  def push(message = %{to: to}) when is_binary(to) do
     message
     |> PushMessage.create()
 
     PushNotification.post!("send", message)
     |> Parser.parse()
   end
+
+  @doc """
+  Send the push notification request when using a single message map with to as list
+  """
+  def push(message = %{to: to}) when is_list(to) do
+    message
+    |> PushMessage.create()
+
+    PushNotification.post!("send", message)
+    |> Parser.parse_list()
+  end
+
 
   @doc """
   Send the push notification request when using a list of message maps
