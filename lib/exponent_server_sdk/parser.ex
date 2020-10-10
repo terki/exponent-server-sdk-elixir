@@ -62,8 +62,12 @@ defmodule ExponentServerSdk.Parser do
         :ok
 
       %{body: body, status_code: status} ->
-        {:ok, json} = Poison.decode(body)
-        {:error, json["errors"], status}
+        case Poison.decode(body) do
+          {:ok, json} ->
+            {:error, json["errors"], status}
+          {:error, _ } ->
+            {:error, body, status}
+        end
     end
   end
 end
