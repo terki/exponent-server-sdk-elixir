@@ -101,6 +101,14 @@ ids = ["XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX", "YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYY
 
 The complete format of the messages can be found [here.](https://docs.expo.io/versions/latest/guides/push-notifications#message-format)
 
+## Configuring
+
+To add either ?useFcmV1=true or ?useFcmV1=false to send operation, add to config:
+
+```elixir
+config :exponent_server_sdk, use_fcm_v1: false
+```
+
 ## Contributing
 
 See the [CONTRIBUTING.md](CONTRIBUTING.md) file for contribution guidelines.

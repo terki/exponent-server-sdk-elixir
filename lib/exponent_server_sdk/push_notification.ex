@@ -30,6 +30,15 @@ defmodule ExponentServerSdk.PushNotification do
     options ++ [recv_timeout: 100_000, timeout: 30_000]
   end
 
+  @spec send_suffix :: String.t()
+  def send_suffix() do
+    case Application.get_env(:exponent_server_sdk, :use_fcm_v1) do
+      true -> "?useFcmV1=true"
+      false -> "?useFcmV1=false"
+      _ -> ""
+    end
+  end
+
   @doc """
   Send the push notification request when using a single message map
   """
@@ -38,7 +47,7 @@ defmodule ExponentServerSdk.PushNotification do
     message
     |> PushMessage.create()
 
-    PushNotification.post!("send", message)
+    PushNotification.post!("send" <> send_suffix(), message)
     |> Parser.parse()
   end
 
@@ -49,7 +58,7 @@ defmodule ExponentServerSdk.PushNotification do
     message
     |> PushMessage.create()
 
-    PushNotification.post!("send", message)
+    PushNotification.post!("send" <> send_suffix(), message)
     |> Parser.parse_list()
   end
 
@@ -62,7 +71,7 @@ defmodule ExponentServerSdk.PushNotification do
     messages
     |> PushMessage.create_from_list()
 
-    PushNotification.post!("send", messages)
+    PushNotification.post!("send" <> send_suffix(), messages)
     |> Parser.parse_list()
   end
 
